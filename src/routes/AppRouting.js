@@ -1,24 +1,29 @@
-import React from 'react';
-import { createStackNavigator,createAppContainer } from 'react-navigation';
+import React from "react";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
-// import Login from '../pages/LoginPage';
-import Register from '../pages/RegisterPage';
-import Landing from '../pages/LandingPage';
-import Profile from '../pages/ProfilePage';
+import Login from '../component/LoginComponent';
+import Register from '../component/RegisterComponent';
+import Profile from '../component/ProfileComponent';
 
 const Route = createStackNavigator(
     {
-    //    Login:Login,
-       Register:Register,
-       Profile:Profile,
-    // Landing:Landing,
+      Login: {
+        screen: Login
+      },
+      Register: {
+        screen: Register
+      },
+      Profile:{
+        screen:Profile
+      },
+      
     },
     {
-        initialRouteName:'Register'
+      initialRouteName: "Login"
     },
-    
-);
-
-const RouterConfig = createAppContainer(Route);
-
-export default RouterConfig;
+  
+  );
+  const RouterConfig = createAppContainer(Route);
+  
+  export default RouterConfig;
+  

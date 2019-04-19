@@ -1,25 +1,17 @@
-import React,{Component} from 'react';
-import { View,StyleSheet } from 'react-native'
-import LoginComponent from '../components/LoginComponent'
+import React, { Component } from 'react';
+import {
+  Text,
+  View,
 
+} from 'react-native';
 
-export default class LoginPage extends Component{
-    constructor(props){
-        super(props);
-    }
+export default class Login extends Component {
+
     render(){
         return(
-            <View style={styles.container}>
-                <LoginComponent navigation={this.props.navigation}/>
+            <View>
+                <LoginComponent navigation={this.props.navigation()}/>
             </View>
         )
     }
 }
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      // backgroundColor: '#00b5ec',
-    }
-})

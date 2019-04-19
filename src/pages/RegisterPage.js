@@ -1,25 +1,17 @@
-import React,{Component} from 'react';
-import { View,StyleSheet } from 'react-native'
-import RegisterComponent from '../components/RegisterComponent'
+import React, { Component } from 'react';
+import {
+  Text,
+  View,
 
+} from 'react-native';
 
-export default class RegisterPage extends Component{
-    constructor(props){
-        super(props);
-    }
+export default class RegisterComponent extends Component {
+
     render(){
         return(
-            <View style={styles.container}>
-                <RegisterComponent navigation={this.props.navigation}/>
+            <View>
+                <RegisterComponent navigation={this.props.navigation()}/>
             </View>
         )
     }
 }
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      // backgroundColor: '#00b5ec',
-    }
-})

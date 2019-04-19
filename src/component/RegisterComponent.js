@@ -7,54 +7,69 @@ import {
   Button,
   TouchableHighlight,
   Image,
-  Alert
+  Alert,
+  ToastAndroid 
 } from 'react-native';
-//import db from '../services/config'
-import { Icon } from 'react-native-elements';
-import {registerUser} from '../services/services';
-import GeolocationComponent from '../components/GeolocationComponent';
+import {registerUser } from '../services/service';
+const Toast = (props) => {
+  if (props.visible) {
+    ToastAndroid.showWithGravityAndOffset(
+      props.message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+    return null;
+  }
+  return null;
+};
 
 
+//import {registerUser} from '../services/service' ; 
+// export const regsterUser=(data)=>{
+// db.ref('/users').push(data),(err)=>{
+//   console.log(err);
+// }
 
-
-
-export default class RegisterComponent extends Component {
+// }
+export default class Register extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        user:{
-            fullName:'',
-            email:'',
-            password:''
-        }
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.register = this.register.bind(this);
+      visible:false,
+      message:'User Created',
+      user:{
+        fullName: '',
+        email   : '',
+        password: '',
+      }
+   
+    };
+    this.handleChange =  this.handleChange.bind(this);
+    this.register =this.register.bind(this);
   }
-
   handleChange(e,fieldName){
     let currentState = this.state;
-    currentState.user[fieldName] =e.nativeEvent.text;
+    currentState.user[fieldName]=e.nativeEvent.text;
     this.setState(currentState);
   }
-
   register(){
-    registerUser(this.state.user);
-    console.log("I am from register function")
-
-  }
+    registerUser(this.state.user).then(result=>{
+      this.setState({message:'User Created Successfully',visible:true});
+  }).catch(err=>{
+      this.setState({message:err.message,visible:true});
+  });
+  this.props.navigation.navigate('Login');
+}
+ 
 
   render() {
     return (
-      <View >
-        <GeolocationComponent/>
+      <View style={styles.container}>
       <Text>REGISTRATION</Text>
         <View style={styles.inputContainer}>
-            <Icon
-            name='user'
-            type='font-awesome'
-            />
           <TextInput style={styles.inputs}
               placeholder="Full name"
               keyboardType="email-address"
@@ -63,10 +78,6 @@ export default class RegisterComponent extends Component {
         </View>
 
         <View style={styles.inputContainer}>
-            <Icon
-            name='envelope'
-            type='font-awesome'
-            />
           <TextInput style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"
@@ -75,25 +86,17 @@ export default class RegisterComponent extends Component {
         </View>
         
         <View style={styles.inputContainer}>
-            <Icon
-            name='key'
-            type='font-awesome'
-            />
           <TextInput style={styles.inputs}
               placeholder="Password"
               secureTextEntry={true}
               underlineColorAndroid='transparent'
               onChange={(e) => {this.handleChange(e,'password')}}/>
         </View>
-        
+
         <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={this.register}>
-        <Text style={styles.signUpText}>Sign up</Text>
+          <Text style={styles.signUpText}>Sign up</Text>
         </TouchableHighlight>
-        
-        
-        <TouchableHighlight style={[styles.buttonContainer, styles.signupButton]} onPress={()=>this.props.navigation.navigate('Profile')}>
-          <Text style={styles.signUpText}>Login</Text>
-        </TouchableHighlight>
+        <Toast visible={this.state.visible} message={this.state.message} />
       </View>
     );
   }
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#00b5ec',
+    backgroundColor: '#00b5ec',
   },
   inputContainer: {
       borderBottomColor: '#F5FCFF',
